@@ -1,0 +1,117 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n1 = in.nextInt();
+        int n2 = in.nextInt();
+        int n3 = in.nextInt();
+        int h1[] = new int[n1];
+        for(int h1_i=0; h1_i < n1; h1_i++){
+            h1[h1_i] = in.nextInt();
+        }
+        int h2[] = new int[n2];
+        for(int h2_i=0; h2_i < n2; h2_i++){
+            h2[h2_i] = in.nextInt();
+        }
+        int h3[] = new int[n3];
+        for(int h3_i=0; h3_i < n3; h3_i++){
+            h3[h3_i] = in.nextInt();
+        }
+		//if(n1 == 0 || n2 == 0 || n3 ==0){
+			//System.out.println(0);
+		//}
+		//else{
+        int height = equalStacks(h1, h2, h3);
+        System.out.println(height);
+		//}
+    }
+    public static int equalStacks(int [] h1 , int [] h2, int [] h3){
+		int height1, height2, height3;
+		height1 = height2 = height3 = 0;
+		int n1 = h1.length;
+		int n2 = h2.length;
+		int n3 = h3.length;
+		int n;
+        Stack<Integer> st1 = new Stack<Integer>();
+		Stack<Integer> st2 = new Stack<Integer>();
+		Stack<Integer> st3 = new Stack<Integer>();
+		if(n1 > n2 && n1 > n3){
+			n = n1;
+		}
+		else if(n2 > n1 && n2 > n3){
+			n = n2;
+		}
+		else {
+			n = n3;
+		}
+        for( int i = n1 - 1 ; i >=  0 ; i--){
+            height1 = height1 + h1[i];
+            st1.push(h1[i]);
+        }
+        for( int i = n2 - 1 ;i >= 0 ; i--){
+			//stack st2 = new Stack();
+			height2 = height2 + h2[i];
+			st2.push(h2[i]);
+		}
+        for( int i = n3 - 1 ;i >= 0 ; i--){
+			//stack st3 = new Stack();
+			height3 = height3 + h3[i];
+			st3.push(h3[i]);
+		}
+		//System.out.println(height1);
+		//System.out.println(height2);
+		//System.out.println(height3);
+		for(int i = 0; i < n; i++){
+			//System.out.println("ramesh");
+			if ( height1 != height2 || height2 != height3){
+				//System.out.println("ram");
+				if(height1 < height2 && !st1.isEmpty() && !st2.isEmpty() ){
+				//System.out.println(height2);
+					height2 = height2 - st2.pop();
+					//System.out.println(height2);
+					//return height2;
+				}
+				//int q = st3.pop();
+				//System.out.println("r"+q);
+				if(height1 < height3 && !st1.isEmpty() && !st3.isEmpty()){
+					height3 = height3 - st3.pop();
+					//System.out.println(height3);
+					//return height3;
+				}
+				if(height2 < height1 && !st1.isEmpty() && !st2.isEmpty() ){
+					height1 = height1 - st1.pop();
+					//System.out.println(height1);
+					//return height1;
+				}
+				if(height2 < height3 && !st2.isEmpty() && !st3.isEmpty()){
+					height3 = height3 - st3.pop();
+					//System.out.println(height3);
+					//return height3;
+				}
+				if(height3 < height1 && !st1.isEmpty() && !st3.isEmpty() ){
+					height1 = height1 - st1.pop();
+					//System.out.println(height3);
+					//return height1;
+				}
+				if(height3 < height2 && !st2.isEmpty() && !st3.isEmpty() ){
+					height2 = height2 - st2.pop();
+					//System.out.println(height2);
+					//return height2;
+				}
+				//System.out.println(height1);
+				//System.out.println(height2);
+				//System.out.println(height3);
+			}
+		}
+        if( !st1.isEmpty() && !st2.isEmpty() && !st3.isEmpty() )
+			return height1;
+        else
+            return 0;
+    }
+}
